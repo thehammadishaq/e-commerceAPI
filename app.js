@@ -7,19 +7,24 @@ const app = express()
 const connect = require('./db/connect');
 //routes
 const authRouter = require('./routes/authRoutes');
-
+const User = require('./models/User');
 // Error Middlewares
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 // Other Middleware
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 // Middlewares
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET))
 app.use(morgan('tiny'));
 
 // Routes
-
+app.delete('/api/v1/delete', async (req, res) => {
+    await User.deleteMany({})
+    res.send('Deleted')
+})
 app.use('/api/v1/auth', authRouter)
 
 app.use(notFoundMiddleware)
