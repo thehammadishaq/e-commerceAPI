@@ -7,6 +7,7 @@ const app = express()
 const connect = require('./db/connect');
 //routes
 const authRouter = require('./routes/authRoutes');
+const userRouter = require('./routes/userRoutes');
 const User = require('./models/User');
 // Error Middlewares
 const notFoundMiddleware = require('./middleware/not-found');
@@ -26,6 +27,7 @@ app.delete('/api/v1/delete', async (req, res) => {
     res.send('Deleted')
 })
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/users', userRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
