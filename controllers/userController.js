@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
+const { createTokenUser, attachCookiesToResponse, checkPermission } = require('../utils/index');
 
 
 const getAllUsers = async (req, res) => {
@@ -11,6 +12,7 @@ const getSingleUser = async (req, res) => {
     const { id: userId } = req.params;
     const user = await User.findOne({ _id: userId }).select('-password')
     if (!user) throw new CustomError.NotFoundError(`No user with id ${userId}`)
+    checkPermission(req.user, user)
     res.status(StatusCodes.OK).json({ user });
 }
 const showCurrentUser = async (req, res) => {
@@ -18,8 +20,20 @@ const showCurrentUser = async (req, res) => {
     res.status(StatusCodes.OK).json({ user });
 }
 const updateUser = async (req, res) => {
-    console.log(req.user);
-    res.send('updateUser')
+    const { email, name } = req.body;
+    if (!email || !name) throw new CustomError.BadRequestError('Please provide both values name and email')
+    const user = await User.findOne({ _id: req.user.userId });
+    if (user.email !== email) {
+        const emailUser = await User.findOne({ email });
+        if (emailUser) throw new CustomError.BadRequestError('Email already in use')
+    }
+    user.name = name;
+    user.email = email;
+    await user.save();
+    const tokenUser = createTokenUser(user)
+    attachCookiesToResponse({ res, user: tokenUser })
+    res.status(StatusCodes.OK).json({ user: tokenUser });
+
 }
 const updateUserPassword = async (req, res) => {
     const { oldPassword, newPassword } = req.body;
