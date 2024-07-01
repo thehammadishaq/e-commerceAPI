@@ -76,6 +76,11 @@ const ProductSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    freeShipping: {
+        type: Boolean,
+        default: false
+    },
+}
 
 }
 
