@@ -80,14 +80,23 @@ const ProductSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-}
+    inventory: {
+        type: Number,
+        required: [true, 'Please provide inventory'],
+        default: 0,
+    }, averageRating:
+    {
+        type: Number,
+        required: [true, 'Please provide average rating'],
+        default: 0,
 
-}
+    },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true,
 
-}
-
-
-
+    },
 
 
 })
