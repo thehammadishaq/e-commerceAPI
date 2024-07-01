@@ -72,6 +72,12 @@ const ProductSchema = mongoose.Schema({
             'green',
         ]
     },
+    featured: {
+        type: Boolean,
+        default: false
+    },
+
+}
 
 }
 
