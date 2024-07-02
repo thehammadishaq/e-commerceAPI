@@ -4,3 +4,4 @@ here is the commit 3
 here is the commit 4
 here is the commit 5
 here is the commit 6
+here is the commit 7
