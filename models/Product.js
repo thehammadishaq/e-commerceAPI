@@ -84,8 +84,8 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         required: [true, 'Please provide inventory'],
         default: 0,
-    }, averageRating:
-    {
+    },
+    averageRating: {
         type: Number,
         required: [true, 'Please provide average rating'],
         default: 0,
