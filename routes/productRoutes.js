@@ -8,16 +8,16 @@ const { createProduct, getAllProducts, getSingleProduct, updateProduct, deletePr
 router
     .route('/')
     .get(getAllProducts)
-    .post([authenticateUser, authorizePermissions('admin')], createProduct)
+    .post(authenticateUser, authorizeUser('admin'), createProduct)
 
 router
     .route('/uploadImage')
-    .post([authenticateUser, authorizePermissions('admin')], uploadImage)
+    .post(authenticateUser, authorizeUser('admin'), uploadImage)
 
 router
     .route('/:id')
-    .put([authenticateUser, authorizePermissions('admin')], updateProduct)
-    .delete([authenticateUser, authorizePermissions('admin')], deleteProduct)
+    .put(authenticateUser, authorizeUser('admin'), updateProduct)
+    .delete(authenticateUser, authorizeUser('admin'), deleteProduct)
     .get(getSingleProduct)
 
 
