@@ -17,11 +17,15 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 // Other Middleware
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(morgan('tiny'));
+app.use(express.static('./public'));
+app.use(fileUpload());
 
 // Routes
 app.delete('/api/v1/delete', async (req, res) => {

@@ -16,7 +16,7 @@ router
 
 router
     .route('/:id')
-    .put(authenticateUser, authorizeUser('admin'), updateProduct)
+    .patch(authenticateUser, authorizeUser('admin'), updateProduct)
     .delete(authenticateUser, authorizeUser('admin'), deleteProduct)
     .get(getSingleProduct)
 
