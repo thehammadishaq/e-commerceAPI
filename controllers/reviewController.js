@@ -19,12 +19,12 @@ const createReview = async (req, res) => {
     res.status(StatusCodes.CREATED).json({ review })
 }
 const getAllReviews = async (req, res) => {
-    const reviews = await Review.find({})
+    const reviews = await Review.find({}).populate({ path: 'product', select: 'name company price' })
     res.status(StatusCodes.OK).json({ reviews, count: reviews.length })
 }
 const getSingleReview = async (req, res) => {
     const { id: reviewId } = req.params
-    const review = await Review.findOne({ _id: reviewId })
+    const review = await Review.findOne({ _id: reviewId }).populate({ path: 'product', select: 'name company price' })
     if (!review) {
         throw new CustomError.NotFoundError(`No review with id: ${reviewId}`)
     }
